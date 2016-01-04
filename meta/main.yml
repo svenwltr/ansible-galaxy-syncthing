@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  author: Sven Walter <sven@wltr.eu>
+  description: 
+  issue_tracker_url: https://github.com/svenwltr/ansible-galaxy-syncthing/issues
+  license: MIT
+  min_ansible_version: 1.2
+  platforms:
+  - name: Fedora
+    versions:
+    - 23
+  #- name: Debian
+  #  versions:
+  #  - etch
+  #  - jessie
+
+  categories:
+  - cloud
+dependencies: []
