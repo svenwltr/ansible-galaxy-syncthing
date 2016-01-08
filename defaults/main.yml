@@ -1,11 +1,7 @@
 ---
 syncthing_user: syncthing
 syncthing_user_create: false
-syncthing_path: syncthing
+syncthing_home: /var/lib/syncthing
 syncthing_arch: "amd64"
 syncthing_version: "0.12.11"
-
-syncthing_path_full: "~{{ syncthing_user }}/{{ syncthing_path }}"
-syncthing_extraced_dir: "syncthing-linux-{{ syncthing_arch }}-v{{ syncthing_version }}"
-syncthing_archive: "{{ syncthing_extraced_dir }}.tar.gz"
-syncthing_url: "https://github.com/syncthing/syncthing/releases/download/v{{ syncthing_version }}/{{ syncthing_archive }}"
+syncthing_path: "."

@@ -1,2 +1,5 @@
 ---
-# vars file for syncthing
+syncthing_path_full: "~{{ syncthing_user }}/{{ syncthing_path }}"
+syncthing_extraced_dir: "syncthing-linux-{{ syncthing_arch }}-v{{ syncthing_version }}"
+syncthing_archive: "{{ syncthing_extraced_dir }}.tar.gz"
+syncthing_url: "https://github.com/syncthing/syncthing/releases/download/v{{ syncthing_version }}/{{ syncthing_archive }}"
