@@ -1,2 +1,43 @@
 ---
-# tasks file for syncthing
+
+- name: create user
+  sudo: true
+  when: syncthing_user_create == true
+  user:
+    name: "{{ syncthing_user }}"
+    createhome: yes
+    state: present
+    system: yes
+
+- name: create program directory
+  file:
+    state: directory
+    path: "{{ syncthing_path_full }}"
+    owner: "{{ syncthing_user }}"
+    group: "{{ syncthing_user }}"
+    mode: 0755
+    recurse: yes
+
+- name: download archive
+  become: true
+  become_user: "{{ syncthing_user }}"
+  get_url:
+    url: "{{ syncthing_url }}"
+    dest: "{{ syncthing_path_full }}/{{ syncthing_archive }}"
+
+- name: extract archive
+  unarchive:
+    src: "{{ syncthing_path_full }}/{{ syncthing_archive }}"
+    dest: "{{ syncthing_path_full }}"
+    copy: no
+    owner: "{{ syncthing_user }}"
+    group: "{{ syncthing_user }}"
+    mode: 0755
+
+- name: link version
+  file:
+    state: link
+    path: "{{ syncthing_path_full }}/latest"
+    src: "{{ syncthing_path_full }}/{{ syncthing_extraced_dir }}"
+    owner: "{{ syncthing_user }}"
+    group: "{{ syncthing_user }}"

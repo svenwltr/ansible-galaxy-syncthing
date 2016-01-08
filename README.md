@@ -1,7 +1,7 @@
-Role Name
+Syncthing
 =========
 
-A brief description of the role goes here.
+Installs Syncthing. It is targeted to support any environment (ie file server or workstation).
 
 Requirements
 ------------
@@ -30,9 +30,10 @@ Including an example of how to use your role (for instance, with variables passe
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+* Sven Walter <sven@wltr.eu>
+
