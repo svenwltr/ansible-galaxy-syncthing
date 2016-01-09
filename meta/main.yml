@@ -16,4 +16,5 @@ galaxy_info:
 
   categories:
   - cloud
-dependencies: []
+dependencies:
+  - cmprescott.xml

@@ -9,35 +9,60 @@
     state: present
     system: yes
 
-- name: create program directory
+- name: create directories
   file:
     state: directory
-    path: "{{ syncthing_path_full }}"
+    path: "{{ item }}"
     owner: "{{ syncthing_user }}"
     group: "{{ syncthing_user }}"
-    mode: 0755
-    recurse: yes
+  with_items:
+    - "{{ syncthing_app_path }}"
+    - "{{ syncthing_config_path }}"
+    - "{{ syncthing_data_path }}"
 
 - name: download archive
   become: true
   become_user: "{{ syncthing_user }}"
   get_url:
     url: "{{ syncthing_url }}"
-    dest: "{{ syncthing_path_full }}/{{ syncthing_archive }}"
+    dest: "{{ syncthing_app_path }}/{{ syncthing_archive }}"
 
 - name: extract archive
   unarchive:
-    src: "{{ syncthing_path_full }}/{{ syncthing_archive }}"
-    dest: "{{ syncthing_path_full }}"
+    src: "{{ syncthing_app_path }}/{{ syncthing_archive }}"
+    dest: "{{ syncthing_app_path }}"
     copy: no
     owner: "{{ syncthing_user }}"
     group: "{{ syncthing_user }}"
-    mode: 0755
 
 - name: link version
   file:
     state: link
-    path: "{{ syncthing_path_full }}/latest"
-    src: "{{ syncthing_path_full }}/{{ syncthing_extraced_dir }}"
+    path: "{{ syncthing_app_path }}/latest"
+    src: "{{ syncthing_app_path }}/{{ syncthing_extraced_dir }}"
     owner: "{{ syncthing_user }}"
     group: "{{ syncthing_user }}"
+
+- name: generate starup script
+  template:
+    src: "syncthing.sh.j2"
+    dest: "{{ syncthing_app_path }}/syncthing.sh"
+    owner: "{{ syncthing_user }}"
+    group: "{{ syncthing_user }}"
+    mode: 0755
+    validate: "bash -n %s"
+
+- name: create config file
+  become: true
+  become_user: "{{ syncthing_user }}"
+  command: >
+    "{{ syncthing_app_path }}/latest/syncthing"
+    "-generate={{ syncthing_config_path }}"
+  args:
+    creates: "{{ syncthing_config_path }}/config.xml"
+
+- name: enable gui
+  xml:
+    file: "{{ syncthing_config_path }}/config.xml"
+    xpath: "/configuration/gui/address"
+    value: ":8384"

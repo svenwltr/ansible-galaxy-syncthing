@@ -1,7 +1,11 @@
 ---
 syncthing_user: syncthing
-syncthing_user_create: false
+syncthing_user_create: true
 syncthing_home: /var/lib/syncthing
 syncthing_arch: "amd64"
 syncthing_version: "0.12.11"
-syncthing_path: "."
+
+syncthing_app_path: "{{ syncthing_home }}"
+syncthing_config_path: "{{ syncthing_app_path }}/config"
+syncthing_data_path: "{{ syncthing_app_path }}/data"
+
