@@ -76,7 +76,7 @@
   xml:
     file: "{{ syncthing_config_path }}/config.xml"
     xpath: "/configuration/gui/address"
-    value: ":8384"
+    value: "{{ syncthing_gui_address }}"
 
 - name: disable auto update
   xml:
