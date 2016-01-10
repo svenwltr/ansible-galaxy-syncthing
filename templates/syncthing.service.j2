@@ -1,0 +1,12 @@
+[Unit]
+Description=Syncthing daemon
+Documentation=https://github.com/svenwltr/ansible-galaxy-syncthing
+After=network.target
+
+[Service]
+ExecStart={{ syncthing_startup_script }}
+Restart=on-failure
+User={{ syncthing_user }}
+
+[Install]
+WantedBy=multi-user.target

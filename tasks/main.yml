@@ -46,7 +46,7 @@
 - name: generate starup script
   template:
     src: "syncthing.sh.j2"
-    dest: "{{ syncthing_app_path }}/syncthing.sh"
+    dest: "{{ syncthing_startup_script }}"
     owner: "{{ syncthing_user }}"
     group: "{{ syncthing_user }}"
     mode: 0755
@@ -66,3 +66,19 @@
     file: "{{ syncthing_config_path }}/config.xml"
     xpath: "/configuration/gui/address"
     value: ":8384"
+
+- name: disable auto update
+  xml:
+    file: "{{ syncthing_config_path }}/config.xml"
+    xpath: "/configuration/options/autoUpgradeIntervalH"
+    value: "0"
+
+- name: generate systemd service
+  template:
+    src: "syncthing.service.j2"
+    dest: "/etc/systemd/system/syncthing.service"
+
+- name: enable service
+  service:
+    name: syncthing
+    state: started

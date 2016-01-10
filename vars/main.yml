@@ -2,3 +2,4 @@
 syncthing_extraced_dir: "syncthing-linux-{{ syncthing_arch }}-v{{ syncthing_version }}"
 syncthing_archive: "{{ syncthing_extraced_dir }}.tar.gz"
 syncthing_url: "https://github.com/syncthing/syncthing/releases/download/v{{ syncthing_version }}/{{ syncthing_archive }}"
+syncthing_startup_script: "{{ syncthing_app_path }}/syncthing.sh"
