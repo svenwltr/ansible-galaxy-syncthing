@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Sven Walter <sven@wltr.eu>
-  description: 
+  description: Open Source Continuous File Synchronization
   issue_tracker_url: https://github.com/svenwltr/ansible-galaxy-syncthing/issues
   license: MIT
   min_ansible_version: 1.2
