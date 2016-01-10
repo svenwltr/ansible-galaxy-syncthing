@@ -2,8 +2,6 @@
 
 cd $( dirname $0 )
 
-exec latest/syncthing \
-	-no-browser \
-	-no-restart \
+exec ./syncthing-inotify \
 	-home="{{ syncthing_config_path }}"
 

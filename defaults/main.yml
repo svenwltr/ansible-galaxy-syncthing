@@ -4,6 +4,7 @@ syncthing_user_create: true
 syncthing_home: /var/lib/syncthing
 syncthing_arch: "amd64"
 syncthing_version: "0.12.12"
+syncthing_inotify_version: "0.6.7"
 
 syncthing_app_path: "{{ syncthing_home }}"
 syncthing_config_path: "{{ syncthing_app_path }}/config"

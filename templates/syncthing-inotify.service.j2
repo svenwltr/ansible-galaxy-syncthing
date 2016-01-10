@@ -1,15 +1,17 @@
 [Unit]
 Description=Syncthing daemon
 Documentation=https://github.com/svenwltr/ansible-galaxy-syncthing
-After=network.target
-Wants=syncthing-inotify.service
+After=network.target syncthing.service
+Requires=syncthing.service
 
 [Service]
 ExecStart={{ syncthing_app_path }}/syncthing.sh
 Restart=on-failure
 User={{ syncthing_user }}
-SuccessExitStatus=3 4
-RestartForceExitStatus=3 4
+SuccessExitStatus=2
+RestartForceExitStatus=3
+ProtectSystem=full
+ProtectHome=read-only
 
 [Install]
 WantedBy=multi-user.target
