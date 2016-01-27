@@ -20,6 +20,36 @@
     - "{{ syncthing_config_path }}"
     - "{{ syncthing_data_path }}"
 
+- name: fetch syncthing metadata
+  uri:
+      url: https://api.github.com/repos/syncthing/syncthing/releases/latest
+      return_content: yes
+      body_format: json
+  register: syncthing_github
+
+- name: fetch syncthing_inotify metadata
+  uri:
+      url: https://api.github.com/repos/syncthing/syncthing-inotify/releases/latest
+      return_content: yes
+      body_format: json
+  register: syncthing_inotify_github
+
+- set_fact:
+    syncthing_version: "{{ syncthing_github.json.tag_name }}"
+    syncthing_inotify_version: "{{ syncthing_inotify_github.json.tag_name }}"
+
+- set_fact:
+    syncthing_extraced_dir: "syncthing-linux-{{ syncthing_arch }}-{{ syncthing_version }}"
+    syncthing_inotify_extraced_dir: "syncthing-inotify-linux-{{ syncthing_arch }}-{{ syncthing_inotify_version }}"
+
+- set_fact:
+    syncthing_archive: "{{ syncthing_extraced_dir }}.tar.gz"
+    syncthing_inotify_archive: "{{ syncthing_inotify_extraced_dir }}.tar.gz"
+
+- set_fact:
+    syncthing_url: "https://github.com/syncthing/syncthing/releases/download/{{ syncthing_version }}/{{ syncthing_archive }}"
+    syncthing_inotify_url: "https://github.com/syncthing/syncthing-inotify/releases/download/{{ syncthing_inotify_version }}/{{ syncthing_inotify_archive }}"
+
 - name: download archives
   become: true
   become_user: "{{ syncthing_user }}"
@@ -95,7 +125,7 @@
 - name: setup services
   service:
     name: "{{ item }}"
-    state: started
+    state: restarted
     enabled: true
   with_items:
     - syncthing

@@ -1,8 +1,0 @@
----
-syncthing_extraced_dir: "syncthing-linux-{{ syncthing_arch }}-v{{ syncthing_version }}"
-syncthing_archive: "{{ syncthing_extraced_dir }}.tar.gz"
-syncthing_url: "https://github.com/syncthing/syncthing/releases/download/v{{ syncthing_version }}/{{ syncthing_archive }}"
-
-syncthing_inotify_extraced_dir: "syncthing-inotify-linux-{{ syncthing_arch }}-v{{ syncthing_inotify_version }}"
-syncthing_inotify_archive: "{{ syncthing_inotify_extraced_dir }}.tar.gz"
-syncthing_inotify_url: "https://github.com/syncthing/syncthing-inotify/releases/download/v{{ syncthing_inotify_version }}/{{ syncthing_inotify_archive }}"
