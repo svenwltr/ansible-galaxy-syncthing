@@ -1,0 +1,47 @@
+---
+
+- name: generate starup script
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ syncthing_app_path }}/{{ item }}"
+    owner: "{{ syncthing_user }}"
+    group: "{{ syncthing_user }}"
+    mode: 0755
+    validate: "bash -n %s"
+  with_items:
+    - syncthing.sh
+    - syncthing-inotify.sh
+  notify:
+    - start services
+
+- name: create config file
+  become: true
+  become_user: "{{ syncthing_user }}"
+  command: >
+    "{{ syncthing_app_path }}/latest/syncthing"
+    "-generate={{ syncthing_config_path }}"
+  args:
+    creates: "{{ syncthing_config_path }}/config.xml"
+
+- name: enable gui
+  xml:
+    file: "{{ syncthing_config_path }}/config.xml"
+    xpath: "/configuration/gui/address"
+    value: "{{ syncthing_gui_address }}"
+
+- name: enable auto update
+  xml:
+    file: "{{ syncthing_config_path }}/config.xml"
+    xpath: "/configuration/options/autoUpgradeIntervalH"
+    value: "1"
+
+- name: generate systemd services
+  template:
+    src: "{{ item }}.service.j2"
+    dest: "/etc/systemd/system/{{ item }}.service"
+  with_items:
+    - syncthing
+    - syncthing-inotify
+  notify:
+    - start services
+

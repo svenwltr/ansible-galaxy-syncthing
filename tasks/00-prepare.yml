@@ -1,0 +1,22 @@
+---
+
+- name: create user
+  sudo: true
+  when: syncthing_user_create == true
+  user:
+    name: "{{ syncthing_user }}"
+    createhome: yes
+    state: present
+    system: yes
+
+- name: create directories
+  file:
+    state: directory
+    path: "{{ item }}"
+    owner: "{{ syncthing_user }}"
+    group: "{{ syncthing_user }}"
+  with_items:
+    - "{{ syncthing_app_path }}"
+    - "{{ syncthing_config_path }}"
+    - "{{ syncthing_data_path }}"
+

@@ -1,2 +1,10 @@
 ---
-# handlers file for syncthing
+- name: start services
+  service:
+    name: "{{ item }}"
+    state: restarted
+    enabled: true
+  with_items:
+    - syncthing
+    - syncthing-inotify
+
